@@ -26,3 +26,4 @@ dist
 *.ipr
 *.iml
 *.iws
+.rvmrc

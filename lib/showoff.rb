@@ -374,8 +374,15 @@ class ShowOff < Sinatra::Application
     @title = ShowOffUtils.showoff_title
     what = params[:captures].first
     what = 'index' if "" == what
-    if (what != "favicon.ico")
-      data = send(what)
+    if what != "favicon.ico"
+      if respond_to? what
+        data = send(what)
+      else
+        path = "./files/#{what}"
+        raise "File does not exist at #{path}" unless File.exists?(path)
+        data = File.new(path)
+      end
+      
       if data.is_a?(File)
         send_file data.path
       else
